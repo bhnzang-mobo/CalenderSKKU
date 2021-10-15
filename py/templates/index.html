@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content%}
+    <div>
+        <p>
+            {% for cal_entry in cal_list %}
+            <div>
+                <p1>
+                    {{cal_entry.summary}}
+                    {{cal_entry.id}}
+                </p1>
+            </div>
+
+            {% endfor %}
+        </p>
+    </div>
+{% endblock %}

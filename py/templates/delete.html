@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content%}
+    <form method="POST" action="/result">
+        <div>
+            <label for="cal_id"> 삭제할 캘린더 id 입력 </label>
+            <input type="text" name="cal_id">
+        </div>
+
+        <div class='button'>
+            <button type="submit">숫자만큼 별 표시하기</button>
+        </div>
+    </form>
+    <div>
+        <p>
+            {% for cal_entry in cal_list %}
+            <div>
+                <p>
+                    {{cal_entry.summary}}
+                    {{cal_entry.id}}
+                </p>
+            </div>
+
+            {% endfor %}
+        </p>
+    </div>
+{% endblock %}

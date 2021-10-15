@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="kr">
+  <head>
+    <meta charset="utf-8">
+
+    <title>성균관대 학사일정</title>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a href="/">성균관대 학사일정</a>
+        <a href="/delete">삭제</a>
+        <a href="/calenderList">내 캘린더 목록 보기</a>
+      </nav>
+      <hr>
+    </header>
+
+    <main role="main">
+    <!-- Main content block -->
+      <p>안녕하세요! 레이아웃 페이지 입니다.
+      </p>
+    <button onclick="location.href='/calenderList'">
+      리스트보러가기
+    </button>
+      <button onclick="location.href='/makeEvents'">
+      캘린더 생성하러가기
+    </button>
+    {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
