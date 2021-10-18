@@ -68,13 +68,12 @@ def makeSKKUEvent(result):
     print(events)
     return events
 
-def skku_eventInsert(event,calId="primary"):
+def skku_eventInsert(service,event,calId="primary"):
     print('Trying: %s' % event)
     res = service.events().insert(calendarId=calId, body=event).execute()
     print('Success! : %s' % event)
 
-def skku_calInsert(summary = "calendarSummary"): #캘린더를 생성하고 캘린더 아이디를 반환합니다.
-    global service
+def skku_calInsert(service,summary = "calendarSummary"): #캘린더를 생성하고 캘린더 아이디를 반환합니다.
     calendar = {
         'summary': summary,
         'timeZone': 'Asia/Seoul'
@@ -84,8 +83,7 @@ def skku_calInsert(summary = "calendarSummary"): #캘린더를 생성하고 캘�
     print("캘린더 생성 성공 : ",created_calendar['id'])
     return created_calendar['id']
 
-def skku_calDelete(cal_id):
-    global service
+def skku_calDelete(service,cal_id):
     flag = True
     A = cal_id
 
@@ -102,8 +100,7 @@ def skku_calDelete(cal_id):
         print("삭제명령을 취소합니다.")
         return 1
 
-def skku_calList(): #캘린더 목록을 반환합니다. 요약과 아이디를 출력.
-    global service
+def skku_calList(service): #캘린더 목록을 반환합니다. 요약과 아이디를 출력.
     page_token = None
     ret=[]
     while True:
@@ -116,8 +113,7 @@ def skku_calList(): #캘린더 목록을 반환합니다. 요약과 아이디를
             break
     return ret
 
-def skku_recent(numOfResult=10):
-    global service
+def skku_recent(service,numOfResult=10):
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
@@ -158,8 +154,7 @@ def skku_init():
     service = build('calendar', 'v3', credentials=creds)
 
 
-def testRun():
-    global service
+def testRun(service):
     skku_recent(service)
     """event = { #이벤트 예시
       'summary': 'Google I/O 2015',

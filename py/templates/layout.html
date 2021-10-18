@@ -1,32 +1,46 @@
 <!DOCTYPE HTML>
 <html lang="kr">
-  <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-    <title>성균관대 학사일정</title>
-  </head>
+  <title>성균관대 학사일정</title>
+</head>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
+<body>
+<header>
+  <nav>
+    <img src="{{url_for('static', filename='skku.jpg')}}" alt="성균관대학교" style="width:230px">
+    <div id="menucover">
+      <ul class="menu">
 
-  <body>
-    <header>
-      <nav>
-        <a href="/">성균관대 학사일정</a>
-        <a href="/delete">삭제</a>
-        <a href="/calenderList">내 캘린더 목록 보기</a>
-      </nav>
-      <hr>
-    </header>
+        <a class="nav_link" href="/">성균관대 학사일정</a>
+        <a class="nav_link" href="/showEvents">학사 일정</a>
+        {% if 'credentials' not in session %}
+        <a class="nav_link" href="/index">
+          로그인
+        </a>
+        {% else %}
+        <a class="nav_link" href="/clear">
+          로그아웃
+        </a>
+        {%endif%}
+      </ul>
+    </div>
+  </nav>
 
-    <main role="main">
-    <!-- Main content block -->
-      <p>안녕하세요! 레이아웃 페이지 입니다.
-      </p>
-    <button onclick="location.href='/calenderList'">
-      리스트보러가기
-    </button>
-      <button onclick="location.href='/makeEvents'">
-      캘린더 생성하러가기
-    </button>
-    {% block content %}{% endblock %}
-    </main>
-  </body>
+</header>
+
+<main role="main">
+  <!-- Main content block -->
+  <br>
+  {% block content %}{% endblock %}
+</main>
+</body>
 </html>
