@@ -1,6 +1,15 @@
 {% extends "layout.html" %}
 {% block content%}
-<div>
+<div id="loader_div" style="display: none;">
+    <div class="loader" style="margin:auto;"></div>
+    <br>
+    <p style="text-align:center;font-size:12px;color:#999999;">
+        학사일정을 업로드중입니다. 잠시만 기다려주세요.
+    </p>
+</div>
+<div id="list_div">
+
+
     <form method="post" action="/showEvents">
         <div style="width : 80%; margin:auto;">
             <p style="font-size:25px;color:#072A5A;font-family: '맑은 고딕';font-weight:bold">
@@ -9,9 +18,9 @@
             <br><hr><br>
             <p style="font-size:12px;color:#999999;">
                 등록된 학사일정 목록은 다음과 같습니다. 계정에 업로드를 원치 않는 일정은 삭제해주세요.
-            <button type="button" onclick="location.href='/insertEvents'" style="float:right;" class="button button1">등  록</button>
-            <button type="button" onclick="location.href='/reset'" style="float:right;" class="button button2">초기화</button>
-            <button type="submit" style="float:right;" class="button button3">삭  제</button>
+                <button type="button" onclick="sub_func()" style="float:right;" class="button button1">등  록</button>
+                <button type="button" onclick="location.href='/reset'" style="float:right;" class="button button2">초기화</button>
+                <button type="submit" style="float:right;" class="button button3">삭  제</button>
             </p>
         </div>
         <br>

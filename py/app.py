@@ -121,12 +121,7 @@ def skkuEventInsert(num=None):
     flask.session['events']=events
     flask.session['url'] = '/'
     return flask.render_template("listEvents.html",events=list(enumerate(events)))
-    """
-    cal_id=skku_calInsert(service,"성균관대 2021 학사일정")
-    result = creatSKKUEvents()
-    events = makeSKKUEvent(result)
-    for ent in events:
-        skku_eventInsert(service,ent,cal_id)"""
+
 
 @app.route("/insertEvents", methods = ["POST","GET"])
 def insertEvent():
@@ -138,7 +133,6 @@ def insertEvent():
             API_SERVICE_NAME, API_VERSION, credentials=credentials)
     cal_id = skku_calInsert(service, "성균관대 2021 학사일정")
 
-    result = creatSKKUEvents()
     events = flask.session['events']
     for ent in events:
         skku_eventInsert(service,ent,cal_id)
@@ -231,27 +225,6 @@ def oauth2callback():
     print(flask.session)
     return flask.redirect(flask.session['url'])
 
-
-@app.route('/revoke')
-def revoke():
-    if 'credentials' not in flask.session:
-        return ('You need to <a href="/authorize">authorize</a> before ' +
-                'testing the code to revoke credentials.')
-
-    credentials = google.oauth2.credentials.Credentials(
-        **flask.session['credentials'])
-
-    revoke = requests.post('https://oauth2.googleapis.com/revoke',
-                           params={'token': credentials.token},
-                           headers = {'content-type': 'application/x-www-form-urlencoded'})
-
-    status_code = getattr(revoke, 'status_code')
-    if status_code == 200:
-        return('Credentials successfully revoked.' + print_index_table())
-    else:
-        return('An error occurred.' + print_index_table())
-
-
 @app.route('/reset')
 def reset():
     print("삭제 시도")
@@ -278,28 +251,6 @@ def credentials_to_dict(credentials):
             'client_id': credentials.client_id,
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes}
-
-def print_index_table():
-    return ('<table>' +
-            '<tr><td><a href="/test">Test an API request</a></td>' +
-            '<td>Submit an API request and see a formatted JSON response. ' +
-            '    Go through the authorization flow if there are no stored ' +
-            '    credentials for the user.</td></tr>' +
-            '<tr><td><a href="/authorize">Test the auth flow directly</a></td>' +
-            '<td>Go directly to the authorization flow. If there are stored ' +
-            '    credentials, you still might not be prompted to reauthorize ' +
-            '    the application.</td></tr>' +
-            '<tr><td><a href="/revoke">Revoke current credentials</a></td>' +
-            '<td>Revoke the access token associated with the current user ' +
-            '    session. After revoking credentials, if you go to the test ' +
-            '    page, you should see an <code>invalid_grant</code> error.' +
-            '</td></tr>' +
-            '<tr><td><a href="/clear">Clear Flask session credentials</a></td>' +
-            '<td>Clear the access token currently stored in the user session. ' +
-            '    After clearing the token, if you <a href="/test">test the ' +
-            '    API request</a> again, you should go back to the auth flow.' +
-            '</td></tr></table>')
-
 
 if __name__ == '__main__':
     # When running locally, disable OAuthlib's HTTPs verification.
